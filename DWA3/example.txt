@@ -1,3 +1,0 @@
-Todo App
-
-This todo app is designed to be incredibly simple and user-friendly, with a focus on providing just the minimal functionality needed to help users manag
