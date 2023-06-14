@@ -28,7 +28,6 @@ for (const { author, id, image, title } of matches.slice(0, BOOKS_PER_PAGE)) {
 
 
 
-
 // Append the starting fragment to the list items
 document.querySelector('[data-list-items]').appendChild(starting);
 
@@ -68,8 +67,6 @@ if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').match
 } else {
   setTheme('day', '10, 10, 20', '255, 255, 255');
 }
-
-
 
 
 
