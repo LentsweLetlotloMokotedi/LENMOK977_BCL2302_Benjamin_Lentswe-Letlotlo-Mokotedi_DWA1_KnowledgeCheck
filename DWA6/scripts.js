@@ -5,26 +5,44 @@ import { books, authors, genres, BOOKS_PER_PAGE } from './data.js';
 let page = 1;
 let matches = books;
 
-// Render initial book list
-const starting = document.createDocumentFragment();
-for (const { author, id, image, title } of matches.slice(0, BOOKS_PER_PAGE)) {
-  // Create book element
-  const element = document.createElement('button');
-  element.classList = 'preview';
-  element.setAttribute('data-preview', id);
+function createBookPreviews(matches, authors) {
+  const starting = document.createDocumentFragment();
 
-  // Add book content
-  element.innerHTML = `
-    <img class="preview__image" src="${image}" />
-    <div class="preview__info">
-      <h3 class="preview__title">${title}</h3>
-      <div class="preview__author">${authors[author]}</div>
-    </div>
-  `;
+  for (const { author, id, image, title } of matches.slice(0, BOOKS_PER_PAGE)) {
+    const element = document.createElement('button');
+    element.classList = 'preview';
+    element.setAttribute('data-preview', id);
 
-  // Append book element to the starting fragment
-  starting.appendChild(element);
+    const imageElement = document.createElement('img');
+    imageElement.classList = 'preview__image';
+    imageElement.src = image;
+    element.appendChild(imageElement);
+
+    const infoElement = document.createElement('div');
+    infoElement.classList = 'preview__info';
+    element.appendChild(infoElement);
+
+    const titleElement = document.createElement('h3');
+    titleElement.classList = 'preview__title';
+    titleElement.textContent = title;
+    infoElement.appendChild(titleElement);
+
+    const authorElement = document.createElement('div');
+    authorElement.classList = 'preview__author';
+    authorElement.textContent = authors[author];
+    infoElement.appendChild(authorElement);
+
+    starting.appendChild(element);
+  }
+
+  return starting;
 }
+
+// Usage:
+const startingFragment = createBookPreviews(matches, authors);
+// Append the startingFragment to the desired container element
+document.querySelector('[data-list-items]').appendChild(startingFragment);
+
 
 
 
