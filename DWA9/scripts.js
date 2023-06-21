@@ -1,59 +1,13 @@
 // Import required data from './data.js'
 import { books, authors, genres, BOOKS_PER_PAGE } from './data.js';
+import BookPreviews from './BOOK.js'; // Import the JavaScript file that defines the custom element
+
 
 // Initialize variables
 let page = 1;
 let matches = books;
 
-// Render initial book list
-function createBookPreviews(matches, authors) {
-  // Create a document fragment to store the book preview elements
-  const starting = document.createDocumentFragment();
 
-  // Loop through each book in the matches array, up to a certain number (BOOKS_PER_PAGE)
-  for (const { author, id, image, title } of matches.slice(0, BOOKS_PER_PAGE)) {
-    // Create a button element for the book preview
-    const element = document.createElement('button');
-    element.classList = 'preview'; // Add the 'preview' class to the button
-    element.setAttribute('data-preview', id); // Set the 'data-preview' attribute to the book's id
-
-    // Create an image element for the book preview
-    const imageElement = document.createElement('img');
-    imageElement.classList = 'preview__image'; // Add the 'preview__image' class to the image
-    imageElement.src = image; // Set the image source to the book's image
-    element.appendChild(imageElement); // Append the image element to the button
-
-    // Create a div element for the book info
-    const infoElement = document.createElement('div');
-    infoElement.classList = 'preview__info'; // Add the 'preview__info' class to the div
-    element.appendChild(infoElement); // Append the info div to the button
-
-    // Create an h3 element for the book title
-    const titleElement = document.createElement('h3');
-    titleElement.classList = 'preview__title'; // Add the 'preview__title' class to the h3
-    titleElement.textContent = title; // Set the text content of the h3 to the book's title
-    infoElement.appendChild(titleElement); // Append the title element to the info div
-
-    // Create a div element for the author
-    const authorElement = document.createElement('div');
-    authorElement.classList = 'preview__author'; // Add the 'preview__author' class to the div
-    authorElement.textContent = authors[author]; // Set the text content of the div to the book's author
-    infoElement.appendChild(authorElement); // Append the author element to the info div
-
-    // Append the book preview element to the starting fragment
-    starting.appendChild(element);
-  }
-
-  // Return the created document fragment
-  return starting;
-}
-
-// Usage:
-// Call the createBookPreviews function with the matches and authors parameters
-const startingFragment = createBookPreviews(matches, authors);
-
-// Append the startingFragment to the desired container element
-document.querySelector('[data-list-items]').appendChild(startingFragment);
 
 
 
@@ -124,6 +78,8 @@ const setListButtonState = () => {
   const showSettingsOverlay = () => {
     document.querySelector('[data-settings-overlay]').open = true;
   };
+
+
   
   const handleSettingsSubmit = (event) => {
     event.preventDefault();
@@ -263,6 +219,8 @@ const setListButtonState = () => {
       document.querySelector('[data-list-description]').innerText = active.description;
     }
   };
+
+  
   
   addEventListener('[data-search-cancel]', 'click', () => {
     hideOverlay('[data-search-overlay]');
