@@ -1,69 +1,65 @@
 // Import required data from './data.js'
 import { books, authors, genres, BOOKS_PER_PAGE } from './data.js';
+
 // Initialize variables
 let page = 1;
 let matches = books;
 
 // Render initial book list
-const starting = document.createDocumentFragment();
-for (const { author, id, image, title } of matches.slice(0, BOOKS_PER_PAGE)) {
-  // Create book element
-  const element = document.createElement('button');
-  element.classList = 'preview';
-  element.setAttribute('data-preview', id);
 function createBookPreviews(matches, authors) {
+  // Create a document fragment to store the book preview elements
   const starting = document.createDocumentFragment();
 
-  // Add book content
-  element.innerHTML = `
-    <img class="preview__image" src="${image}" />
-    <div class="preview__info">
-      <h3 class="preview__title">${title}</h3>
-      <div class="preview__author">${authors[author]}</div>
-    </div>
-  `;
+  // Loop through each book in the matches array, up to a certain number (BOOKS_PER_PAGE)
   for (const { author, id, image, title } of matches.slice(0, BOOKS_PER_PAGE)) {
+    // Create a button element for the book preview
     const element = document.createElement('button');
-    element.classList = 'preview';
-    element.setAttribute('data-preview', id);
+    element.classList = 'preview'; // Add the 'preview' class to the button
+    element.setAttribute('data-preview', id); // Set the 'data-preview' attribute to the book's id
 
-  // Append book element to the starting fragment
-  starting.appendChild(element);
+    // Create an image element for the book preview
     const imageElement = document.createElement('img');
-    imageElement.classList = 'preview__image';
-    imageElement.src = image;
-    element.appendChild(imageElement);
+    imageElement.classList = 'preview__image'; // Add the 'preview__image' class to the image
+    imageElement.src = image; // Set the image source to the book's image
+    element.appendChild(imageElement); // Append the image element to the button
 
+    // Create a div element for the book info
     const infoElement = document.createElement('div');
-    infoElement.classList = 'preview__info';
-    element.appendChild(infoElement);
+    infoElement.classList = 'preview__info'; // Add the 'preview__info' class to the div
+    element.appendChild(infoElement); // Append the info div to the button
 
+    // Create an h3 element for the book title
     const titleElement = document.createElement('h3');
-    titleElement.classList = 'preview__title';
-    titleElement.textContent = title;
-    infoElement.appendChild(titleElement);
+    titleElement.classList = 'preview__title'; // Add the 'preview__title' class to the h3
+    titleElement.textContent = title; // Set the text content of the h3 to the book's title
+    infoElement.appendChild(titleElement); // Append the title element to the info div
 
+    // Create a div element for the author
     const authorElement = document.createElement('div');
-    authorElement.classList = 'preview__author';
-    authorElement.textContent = authors[author];
-    infoElement.appendChild(authorElement);
+    authorElement.classList = 'preview__author'; // Add the 'preview__author' class to the div
+    authorElement.textContent = authors[author]; // Set the text content of the div to the book's author
+    infoElement.appendChild(authorElement); // Append the author element to the info div
 
+    // Append the book preview element to the starting fragment
     starting.appendChild(element);
   }
 
+  // Return the created document fragment
   return starting;
 }
 
 // Usage:
+// Call the createBookPreviews function with the matches and authors parameters
 const startingFragment = createBookPreviews(matches, authors);
+
 // Append the startingFragment to the desired container element
 document.querySelector('[data-list-items]').appendChild(startingFragment);
 
 
 
 
-// Append the starting fragment to the list items
-document.querySelector('[data-list-items]').appendChild(starting);
+
+
 // Generate options for search form
 const generateOptions = (data, container, defaultValue, defaultLabel) => {
   const optionsHtml = document.createDocumentFragment();
@@ -71,29 +67,39 @@ const generateOptions = (data, container, defaultValue, defaultLabel) => {
   firstOptionElement.value = defaultValue;
   firstOptionElement.innerText = defaultLabel;
   optionsHtml.appendChild(firstOptionElement);
+
   for (const [id, name] of Object.entries(data)) {
     const element = document.createElement('option');
     element.value = id;
     element.innerText = name;
     optionsHtml.appendChild(element);
   }
+
   document.querySelector(container).appendChild(optionsHtml);
 };
+
 // Append genre options to the search form
 generateOptions(genres, '[data-search-genres]', 'any', 'All Genres');
+
 // Append author options to the search form
 generateOptions(authors, '[data-search-authors]', 'any', 'All Authors');
+
 // Set the theme based on user's preference
 const setTheme = (theme, darkColor, lightColor) => {
   document.querySelector('[data-settings-theme]').value = theme;
   document.documentElement.style.setProperty('--color-dark', darkColor);
   document.documentElement.style.setProperty('--color-light', lightColor);
 };
+
 if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
   setTheme('night', '255, 255, 255', '10, 10, 20');
 } else {
   setTheme('day', '10, 10, 20', '255, 255, 255');
 }
+
+
+
+
 const setListButtonState = () => {
     const listButton = document.querySelector('[data-list-button]');
     listButton.innerText = `Show more (${books.length - BOOKS_PER_PAGE})`;
@@ -277,3 +283,4 @@ const setListButtonState = () => {
   addEventListener('[data-list-button]', 'click', handleListButtonClick);
   
   addEventListener('[data-list-items]', 'click', handleListItemsClick);
+  
